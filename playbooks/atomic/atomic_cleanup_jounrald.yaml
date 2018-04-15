@@ -1,0 +1,9 @@
+---
+
+- name: Maintenance
+  hosts: all
+  remote_user: root
+  tasks:
+    - name: Delete journald logs
+      command: journalctl --vacuum-time=1h
+

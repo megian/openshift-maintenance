@@ -1,0 +1,20 @@
+---
+
+- name: Maintenance
+  hosts: all
+  remote_user: root
+  tasks:
+    - name: Change journald.conf SystemMaxUse
+      ini_file:
+        path: /etc/systemd/journald.conf
+        section: "Journal"
+        option: " SystemMaxUse"
+        no_extra_spaces: yes
+        value: 1G
+        backup: yes
+
+    - name: Restart systemd-journald to load config settings
+      service:
+        name: systemd-journald
+        state: restarted
+

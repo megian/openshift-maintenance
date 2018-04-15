@@ -1,0 +1,19 @@
+---
+
+- name: Cleanup Backup
+  hosts: all
+  remote_user: root
+  tasks:
+    - name: Find etcd backup directories
+      find:
+        paths: /var/lib/etcd/
+        pattern: openshift-backup-*
+        file_type: directory
+      register: etcd_backup_directories
+
+    - name: Delete etcd backup directories
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ etcd_backup_directories.files }}"
+

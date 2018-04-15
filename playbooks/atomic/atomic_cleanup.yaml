@@ -1,0 +1,15 @@
+---
+
+- name: Maintenance
+  hosts: all
+  remote_user: root
+  tasks:
+    - name: Undeploy previous Atomic Host version (1)
+      command: ostree admin undeploy 1
+
+    - name: Atomic Host cleanup
+      command: ostree admin cleanup
+
+    - name: Delete journald logs
+      command: journalctl --vacuum-time=1h
+
