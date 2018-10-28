@@ -5,20 +5,9 @@
   remote_user: root
   gather_facts: no
   tasks:
-    - name: Lookup for exited docker containers
-      command: docker ps -q -f status=exited
-      register: exited_docker_containers
-
     - name: Cleanup all exited docker containers
-      command: "docker rm {{ item }}"
-      with_items: "{{ exited_docker_containers.stdout_lines }}"
+      command: "docker system prune -a -f"
 
-    - name: Lookup for docker images
-      command: docker images -q
-      register: docker_images
-
-    - name: Delete all docker images (and hope, that docker prevent the deletion of images used)
-      command: "docker rmi {{ item }}"
-      with_items: "{{ docker_images.stdout_lines }}"
-
+    - name: Delete all docker images
+      command: "docker image prune -a -f"
 
