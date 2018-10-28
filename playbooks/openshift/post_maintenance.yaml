@@ -16,5 +16,5 @@
     - name: Restart systemd-journald to load config settings
       service:
         name: systemd-journald
-        state: restarted
+        state: reloaded
 
